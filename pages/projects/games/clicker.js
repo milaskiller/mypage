@@ -1,6 +1,6 @@
 import React from "react";
 import Upgrade from "../../../components/upgrade";
-
+import Spinner from "react-bootstrap/Spinner"
 
 export default class Clicker extends React.Component {
     constructor(props) {
@@ -30,7 +30,7 @@ export default class Clicker extends React.Component {
             }, this.state.tickspeed)
         }
 
-        this.setState({loading: false})
+        this.setState({loading: false});
     }
 
     componentDidUpdate() {
@@ -44,34 +44,50 @@ export default class Clicker extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <head>
-                    <title>{this.state.clicks} Clicks</title>
-                </head>
-                <h1 className="clicks">You have {this.state.clicks} CLICKS</h1>
-                <button
-                    className="cursor"
-                    onClick={() => this.setState({clicks: this.state.clicks + (this.state.clickMultiplier * 10)})}
-                ><img src="/cursor1.jpg" alt="CURSOR"/></button>
-                <div className="upgrades">
-                    {this.renderUpgrades("test", 1)}
+        if(this.state.loading) {
+            return (
+                <>
+                    <Spinner animation="border" role="status">
+                        <span>loading...</span>
+                    </Spinner>
+                    <style jsx>{`
+                        * {
+                            background-color: black;
+                            color: white;
+                        }
+                    `}</style>
+                </>
+            )
+        } else {
+            return (
+                <div>
+                    <head>
+                        <title>{this.state.clicks} Clicks</title>
+                    </head>
+                    <h1 className="clicks">You have {this.state.clicks} CLICKS</h1>
+                    <button
+                        className="cursor"
+                        onClick={() => this.setState({clicks: this.state.clicks + (this.state.clickMultiplier * 10)})}
+                    ><img src="/cursor1.jpg" alt="CURSOR"/></button>
+                    <div className="upgrades">
+                        {this.renderUpgrades("test", 1)}
+                    </div>
+    
+                    <style jsx>{`
+                        * {
+                          text-align: center;
+                        }
+                        .upgrades {
+                          display: block;
+                        }
+                        img {
+                        width: 400px;
+                        height: 300px;
+                        }
+                    `}</style>
                 </div>
-
-                <style jsx>{`
-                    * {
-                      text-align: center;
-                    }
-                    .upgrades {
-                      display: block;
-                    }
-                    img {
-                    width: 400px;
-                    height: 300px;
-                    }
-                `}</style>
-            </div>
-        )
+            )
+        }
     }
 
 
